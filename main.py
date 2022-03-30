@@ -2,10 +2,18 @@ import os
 import string
 
 
-def findDir(fromDir):
+def findDir(fromDir, folderToDelete):
+    allDirToDelete = []
     for roots, dirs, files in os.walk(fromDir):
-        print(roots, len(dirs), len(files))
-        print(dirs)
+        for i in range(0, len(dirs), 1):
+            if(dirs[i] == folderToDelete):
+                # checking if the current directory is 'folderToDelete'
+                iterativeDir = os.path.join(
+                    roots, dirs[i])
+                # joining directory with root directory to find the full path of that directory
+                allDirToDelete.append(os.path.join(
+                    iterativeDir.split(folderToDelete)[0], folderToDelete))
+    print(allDirToDelete)
 
 
 if __name__ == "__main__":
@@ -21,8 +29,8 @@ if __name__ == "__main__":
     # for i in range(0, excludedDirNo, 1):
     #     excludedDir = input(f"Enter {i+1}th Directory you want to exclude\n")
     #     excludedDirs.append(excludedDir)
-    isDirExist = os.path.exists(fromDir)
-    if(isDirExist):
-        findDir(fromDir)
+    isDir = os.path.exists(fromDir)
+    if(isDir):
+        findDir(fromDir, folderToDelete)
     else:
         print("not exist")
