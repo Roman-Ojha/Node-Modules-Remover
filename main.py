@@ -11,8 +11,11 @@ def findDir(fromDir, folderToDelete):
                 iterativeDir = os.path.join(
                     roots, dirs[i])
                 # joining directory with root directory to find the full path of that directory
-                allDirToDelete.append(os.path.join(
-                    iterativeDir.split(folderToDelete)[0], folderToDelete))
+                splitDir = os.path.join(
+                    iterativeDir.split(folderToDelete)[0], folderToDelete)
+                if splitDir not in allDirToDelete:
+                    allDirToDelete.append(os.path.join(
+                        iterativeDir.split(folderToDelete)[0], folderToDelete))
     print(allDirToDelete)
 
 
