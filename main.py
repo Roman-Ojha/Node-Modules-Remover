@@ -1,5 +1,4 @@
 import os
-import string
 from turtle import goto
 
 
