@@ -1,5 +1,6 @@
 import os
 import string
+from turtle import goto
 
 
 def findDir(fromDir, folderToDelete, excludedDirs):
@@ -33,13 +34,18 @@ if __name__ == "__main__":
     excludedDirs = []
     print(f"=============== {folderToDelete} Remover ===============")
     fromDir = input("Starting Directory to search: ")
+    if os.path.exists(fromDir) is not True:
+        print("Starting Directory doesn't exist")
+        print("Please Try Again.....")
+        exit()
     excludedDirNo = int(input(
         f"Number of Directory to exclude: "))
     for i in range(0, excludedDirNo, 1):
-        excludedDir = input(f"Enter {i+1}th Directory to exclude\n")
-        excludedDirs.append(excludedDir)
+        excludedDir = input(f"Enter {i+1}th Directory to exclude: ")
+        if(os.path.exists(excludedDir)):
+            excludedDirs.append(excludedDir)
+        else:
+            print("Give excluded Directory doesn't exist")
+            print("Please Try Again.....")
     isDir = os.path.exists(fromDir)
-    if(isDir):
-        findDir(fromDir, folderToDelete, excludedDirs)
-    else:
-        print("not exist")
+    findDir(fromDir, folderToDelete, excludedDirs)
