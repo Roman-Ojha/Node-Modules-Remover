@@ -3,8 +3,25 @@ import string
 from turtle import goto
 
 
-def findDir(fromDir, folderToDelete, excludedDirs):
-    allDirToDelete = []
+def deleteFolder(path):
+    wantToRemove = ""
+    print(f"\nFolder Path: {path}")
+    print("Do you Want to delete This folder?(Y/N)")
+    while(True):
+        wantToRemove = input()
+        if wantToRemove == "Y" or wantToRemove == "y":
+            print("Deleting Folder.....")
+            # os.remove(path)
+            print("Deleted Folder Successfully")
+            return
+        elif wantToRemove == "N" or wantToRemove == "n":
+            return
+        else:
+            print("Please Type Y or N")
+
+
+def findAndDeleteFolder(fromDir, folderToDelete, excludedDirs):
+    allDeletedDirectory = []
     for roots, dirs, files in os.walk(fromDir):
         for i in range(0, len(dirs), 1):
             if(dirs[i] == folderToDelete):
@@ -14,23 +31,24 @@ def findDir(fromDir, folderToDelete, excludedDirs):
                 # joining directory with root directory to find the full path of that directory
                 splitDir = os.path.join(
                     iterativeDir.split(folderToDelete)[0], folderToDelete)
-                if splitDir not in allDirToDelete:
+                if splitDir not in allDeletedDirectory:
                     # check if iterative Directory is excluded Directory
+                    folderPath = os.path.join(
+                        iterativeDir.split(folderToDelete)[0], folderToDelete)
                     if len(excludedDirs) == 0:
-                        allDirToDelete.append(os.path.join(
-                            iterativeDir.split(folderToDelete)[0], folderToDelete))
+                        # Deleting folder
+                        deleteFolder(folderPath)
+                        allDeletedDirectory.append(folderPath)
                     else:
                         for i in range(0, len(excludedDirs), 1):
                             if excludedDirs[i] not in splitDir:
-                                allDirToDelete.append(os.path.join(
-                                    iterativeDir.split(folderToDelete)[0], folderToDelete))
-    print(allDirToDelete)
+                                # Deleting Folder
+                                deleteFolder(folderPath)
+                                allDeletedDirectory.append(folderPath)
 
 
 if __name__ == "__main__":
     folderToDelete = "node_modules"
-    fromDir = string
-    excludedDirNo = int
     excludedDirs = []
     print(f"=============== {folderToDelete} Remover ===============")
     fromDir = input("Starting Directory to search: ")
@@ -48,4 +66,4 @@ if __name__ == "__main__":
             print("Give excluded Directory doesn't exist")
             print("Please Try Again.....")
     isDir = os.path.exists(fromDir)
-    findDir(fromDir, folderToDelete, excludedDirs)
+    findAndDeleteFolder(fromDir, folderToDelete, excludedDirs)
